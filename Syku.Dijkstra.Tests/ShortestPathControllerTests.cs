@@ -1,29 +1,35 @@
 using FluentAssertions;
+using System;
 using Xunit;
 
 namespace Syku.Dijkstra.Tests
 {
-    public class ShortestPathControllerTests
+    public class ShortestPathControllerTests : IDisposable
     {
-        private ShortestPathController GetController()
+        private readonly ShortestPathController _controller;
+
+        public ShortestPathControllerTests()
         {
             var dijkstra = new DijkstraShortestPathService();
-            return new ShortestPathController(dijkstra);
+            _controller = new ShortestPathController(dijkstra);
         }
 
         [Fact]
         public void ShortestDistanceIsCalculatedCorrectly()
         {
-            var controller = GetController();
-
-            var result = controller.GetDistance("A", "J");
+            var result = _controller.GetDistance("A", "J");
             result.Should().Be(18);
 
-            var result2 = controller.GetDistance("A", "D");
+            var result2 = _controller.GetDistance("A", "D");
             result2.Should().Be(1);
 
-            var result3 = controller.GetDistance("A", "F");
+            var result3 = _controller.GetDistance("A", "F");
             result3.Should().Be(26);
+        }
+
+        public void Dispose()
+        {
+            _controller.Dispose();
         }
     }
 }
