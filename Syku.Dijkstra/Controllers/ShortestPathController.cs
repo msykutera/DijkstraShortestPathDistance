@@ -12,7 +12,7 @@ namespace Syku.Dijkstra
             _shortestPath = shortestPath;
         }
 
-        [HttpGet]
+        [HttpGet("distance/{from}/{to}")]
         public double GetDistance(string from, string to)
         {
             var distance = _shortestPath.GetDistance(from, to);
